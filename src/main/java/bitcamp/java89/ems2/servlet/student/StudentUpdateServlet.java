@@ -9,13 +9,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import bitcamp.java89.ems2.dao.impl.MemberMysqlDao;
 import bitcamp.java89.ems2.dao.impl.StudentMysqlDao;
 import bitcamp.java89.ems2.domain.Student;
 
 @WebServlet("/student/update")
 public class StudentUpdateServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
-
+  
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response) 
       throws ServletException, IOException {
@@ -24,14 +25,14 @@ public class StudentUpdateServlet extends HttpServlet {
     
     Student student = new Student();
     student.setMemberNo(Integer.parseInt(request.getParameter("memberNo")));
+    student.setEmail(request.getParameter("email"));
+    student.setPassword(request.getParameter("password"));
     student.setName(request.getParameter("name"));
     student.setTel(request.getParameter("tel"));
-    student.setEmail(request.getParameter("email"));
-    student.setWorking(request.getParameter("working").equals("Y")? true:false);
-    student.setPassword(request.getParameter("password"));
+    student.setWorking(Boolean.parseBoolean(request.getParameter("working")));
     student.setGrade(request.getParameter("grade"));
     student.setSchoolName(request.getParameter("schoolName"));
-    student.setDetailAddress(request.getParameter("datailAddress"));
+    student.setPhotoPath(request.getParameter("photoPath"));
     
     response.setHeader("Refresh", "1;url=list");
     response.setContentType("text/html;charset=UTF-8");
@@ -49,9 +50,12 @@ public class StudentUpdateServlet extends HttpServlet {
     try {
       StudentMysqlDao studentDao = StudentMysqlDao.getInstance();
       
-      if (!studentDao.existMemberNo(Integer.parseInt(request.getParameter("memberNo")))) {
+      if (!studentDao.exist(student.getMemberNo())) {
         throw new Exception("사용자를 찾지 못했습니다.");
       }
+      
+      MemberMysqlDao memberDao = MemberMysqlDao.getInstance();
+      memberDao.update(student);
       
       studentDao.update(student);
       out.println("<p>변경 하였습니다.</p>");
@@ -63,5 +67,4 @@ public class StudentUpdateServlet extends HttpServlet {
     out.println("</body>");
     out.println("</html>");
   }
-  
 }

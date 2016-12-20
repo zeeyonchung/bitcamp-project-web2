@@ -39,24 +39,28 @@ public class StudentListServlet extends HttpServlet {
       out.println("<a href='form.html'>추가</a><br>");
       out.println("<table border='1'>");
       out.println("<tr>");
-      out.println("  <th>회원일련번호</th><th>이름</th><th>전화</th><th>이메일</th>"
-          + "<th>암호</th><th>재직여부</th><th>최종학력</th>"
-          + "<th>학교명</th><th>상세주소</th>");
+       out.println("  <th>회원번호</th>");
+       out.println("  <th>이름</th>");
+       out.println("  <th>전화</th>");
+       out.println("  <th>재직여부</th>");
+       out.println("  <th>최종학력</th>");
+       out.println("  <th>학교명</th>");
       out.println("</tr>");
       
       for (Student student : list) {
         out.println("<tr> ");
-        out.printf("  <td><a href='detail?memberNo=%s'>%1$s</a></td><td>%s</td><td>%s</td><td>%s</td>"
-            + "<td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td>\n",
-          Integer.toString(student.getMemberNo()),
+        out.printf("  <td>%d</td>"
+            + "<td><a href='detail?memberNo=%1$s'>%s</a></td>"
+            + "<td>%s</td>"
+            + "<td>%b</td>"
+            + "<td>%s</td>"
+            + "<td>%s</td>\n",
+          student.getMemberNo(),
           student.getName(),
           student.getTel(),
-          student.getEmail(),
-          student.getPassword(),
           student.isWorking(),
           student.getGrade(),
-          student.getSchoolName(),
-          student.getDetailAddress());
+          student.getSchoolName());
         out.println("</tr>");
       }
       

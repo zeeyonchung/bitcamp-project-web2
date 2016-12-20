@@ -10,5 +10,5 @@ public interface StudentDao {
   void insert(Student student) throws Exception;
   void update(Student student) throws Exception;
   void delete(int memberNo) throws Exception;
-  boolean existMemberNo(int memberNo) throws Exception;
+  boolean exist(int memberNo) throws Exception;
 }
