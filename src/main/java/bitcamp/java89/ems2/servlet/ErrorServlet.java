@@ -30,6 +30,14 @@ public class ErrorServlet extends HttpServlet {
       
       out.println("<p>오류가 발생하였습니다.</p>");
       
+      Exception exception = (Exception)request.getAttribute("error");
+      if (exception != null) {
+        out.printf("<pre>%s</pre>\n", exception.getMessage());
+        out.println("<pre>");
+        exception.printStackTrace(out);
+        out.println("</pre>");
+      }
+      
       out.println("</body>");
       out.println("</html>");
     }
