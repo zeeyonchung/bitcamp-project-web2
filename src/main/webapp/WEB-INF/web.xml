@@ -5,6 +5,11 @@
                       http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
   version="3.1"
   metadata-complete="false">
+  
+<!-- 리스너 등록 -->
+  <listener>
+    <listener-class>bitcamp.java89.ems2.listener.ContextLoaderListener</listener-class>
+  </listener>
 
 <!-- 필터 등록 -->
   <filter>
@@ -21,11 +26,12 @@
 
 
 <!-- 서블릿 클래스 등록 -->
+<!--  
   <servlet>
     <servlet-name>Context Loader Servlet</servlet-name>
     <servlet-class>bitcamp.java89.ems2.servlet.ContextLoaderServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
   </servlet>
-  
+-->
 </web-app>
 
