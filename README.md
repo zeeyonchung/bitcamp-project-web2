@@ -1,17 +1,6 @@
 # bitcamp-project-web2
 
-## 0.2 - 학생 관리 기능 구현
-- 프로젝트 기본 패키지 준비
-  - bitcamp.java89.ems2
-- domain 객체 구현
-  - bitcamp.java89.ems2.domain 패키지 생성
-  - Student.java 클래스 정의
-
-
-
-## 0.1 - Gradle 웹 프로젝트 기본 골격 생성
-- 소스 폴더 생성
-- MySQL JDBC Driver 파일 준비 (/libs/xxx.jar)
-- Gradle 설정 파일 준비 (/build.gradle)
-- GitIgnore 설정 파일 준비 (/.gitignore)
-- ReadMe.md 파일 변경
+### v0.7 - ServletContect 보관소 기능을 사용하여 DAO 공유하기
+- 기존의 DAO 클래스에서 Singleton 패턴을 제거한다.
+- 다른 서블릿이 사용할 DAO 객체를 준비시키는 서블릿을 만든다.
+- DAO 클래스의 인터페이스를 정의한다.

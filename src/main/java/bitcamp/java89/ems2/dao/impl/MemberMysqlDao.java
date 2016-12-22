@@ -10,22 +10,12 @@ import bitcamp.java89.ems2.dao.MemberDao;
 import bitcamp.java89.ems2.domain.Member;
 
 public class MemberMysqlDao implements MemberDao {
-DataSource ds;
-  
-  //Singleton 패턴 - start
-  private MemberMysqlDao() {
-    ds = DataSource.getInstance();
+  DataSource ds;
+
+
+  public void setDataSource(DataSource ds) {
+    this.ds = ds;
   }
- 
-  static MemberMysqlDao instance;
- 
-  public static MemberMysqlDao getInstance() {
-    if (instance == null) {
-      instance = new MemberMysqlDao();
-    }
-    return instance;
-  }
-  // end - Singleton 패턴
  
   
   public boolean exist(String email) throws Exception {

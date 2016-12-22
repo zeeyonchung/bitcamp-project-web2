@@ -10,53 +10,43 @@ import bitcamp.java89.ems2.dao.ManagerDao;
 import bitcamp.java89.ems2.domain.Manager;
 
 public class ManagerMysqlDao implements ManagerDao {
-DataSource ds;
-  
-  //Singleton 패턴 - start
-  private ManagerMysqlDao() {
-    ds = DataSource.getInstance();
-  }
- 
-  static ManagerMysqlDao instance;
- 
-  public static ManagerMysqlDao getInstance() {
-    if (instance == null) {
-      instance = new ManagerMysqlDao();
-    }
-    return instance;
-  }
-  // end - Singleton 패턴
- 
+  DataSource ds;
 
-  
+
+  public void setDataSource(DataSource ds) {
+    this.ds = ds;
+  }
+
+
+
   public boolean exist(int memberNo) throws Exception {
     Connection con = ds.getConnection(); // 커넥션풀에서 한 개의 Connection 객체를 임대한다.
     try (
-        
-      PreparedStatement stmt = con.prepareStatement(
-          "select count(*) "
-          + "from mgr left outer join memb on memb.mno=mgr.mrno "
-          + "where mrno=?"); ) {
-      
+
+        PreparedStatement stmt = con.prepareStatement(
+            "select count(*) "
+                + "from mgr left outer join memb on memb.mno=mgr.mrno "
+                + "where mrno=?"); ) {
+
       stmt.setInt(1, memberNo);
       ResultSet rs = stmt.executeQuery();
-      
+
       rs.next();
       int count = rs.getInt(1);
       rs.close();
-      
+
       if (count > 0) {
         return true;
       } else {
         return false;
       }
-      
+
     } finally {
       ds.returnConnection(con);
     }
   }
-  
- 
+
+
 
 
 
@@ -71,8 +61,8 @@ DataSource ds;
          */
         PreparedStatement stmt = con.prepareStatement(
             "select mno, name, tel, email, posi, fax, path "
-            + "from mgr "
-            + "left outer join memb on memb.mno=mgr.mrno;");
+                + "from mgr "
+                + "left outer join memb on memb.mno=mgr.mrno;");
 
         ResultSet rs = stmt.executeQuery(); ){
 
@@ -85,7 +75,7 @@ DataSource ds;
         manager.setPosition(rs.getString("posi"));
         manager.setFax(rs.getString("fax"));
         manager.setPhotoPath(rs.getString("path"));
-        
+
         list.add(manager);
       }
     } finally {
@@ -117,7 +107,7 @@ DataSource ds;
         manager.setPosition(rs.getString("posi"));
         manager.setFax(rs.getString("fax"));
         manager.setPhotoPath(rs.getString("path"));
-      
+
         return manager;
 
       } else {
@@ -190,7 +180,7 @@ DataSource ds;
       stmt.setString(2, manager.getFax());
       stmt.setString(3, manager.getPhotoPath());
       stmt.setInt(4, manager.getMemberNo());
-      
+
       stmt.executeUpdate();
 
     } finally {
@@ -213,5 +203,5 @@ DataSource ds;
       ds.returnConnection(con);
     }
   }
-  
+
 }

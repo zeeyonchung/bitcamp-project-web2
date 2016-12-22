@@ -12,21 +12,10 @@ import bitcamp.java89.ems2.domain.Teacher;
 public class TeacherMysqlDao implements TeacherDao {
   DataSource ds;
 
-  //Singleton 패턴 - start
-  private TeacherMysqlDao() {
-    ds = DataSource.getInstance();
+
+  public void setDataSource(DataSource ds) {
+    this.ds = ds;
   }
-
-  static TeacherMysqlDao instance;
-
-  public static TeacherMysqlDao getInstance() {
-    if (instance == null) {
-      instance = new TeacherMysqlDao();
-    }
-    return instance;
-  }
-  // end - Singleton 패턴
-
 
 
   public boolean exist(int memberNo) throws Exception {

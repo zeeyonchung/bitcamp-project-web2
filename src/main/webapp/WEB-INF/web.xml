@@ -7,23 +7,14 @@
   metadata-complete="false">
 
 <!-- 서블릿 클래스 등록 -->
+  <!-- 이 서블릿은 다른 서블릿이 사용할 도구를 준비.
+       이 서블릿은 클라이언트에게 서비스를 제공하는 역할이 아니기 때문에 
+       url을 지정하지 않는다. -->
   <servlet>
-    <servlet-name>servlet 04</servlet-name>
-    <servlet-class>bitcamp.servlet.Servlet04</servlet-class>
-  </servlet>
-  <servlet>
-    <servlet-name>servlet 05</servlet-name>
-    <servlet-class>bitcamp.servlet.Servlet05</servlet-class>
+    <servlet-name>Context Loader Servlet</servlet-name>
+    <servlet-class>bitcamp.java89.ems2.servlet.ContextLoaderServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
   </servlet>
   
-<!-- 서블릿 클래스에 명령어를 부여 -->
-  <servlet-mapping>
-    <servlet-name>servlet 04</servlet-name>
-    <url-pattern>/okok/haha/servlet04</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>servlet 05</servlet-name>
-    <url-pattern>/servlet05</url-pattern>
-  </servlet-mapping>
 </web-app>
 
