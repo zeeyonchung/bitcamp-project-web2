@@ -25,7 +25,6 @@ public class StudentAddServlet extends HttpServlet {
       throws ServletException, IOException {
 
     try {
-      request.setCharacterEncoding("UTF-8");
 
       Student student = new Student();
       student.setEmail(request.getParameter("email"));
