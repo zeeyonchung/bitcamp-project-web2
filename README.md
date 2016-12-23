@@ -1,5 +1,9 @@
 # bitcamp-project-web2
 
+### v1.0 - 쿠키를 이용하여 로그인 아이디 저장하기, 로그인 처리
+- 로그인 폼 생성
+  - LoginFormServlet.java 생성
+- MemberDao와 MemberMysqlDao 변경 - exist(email,password) 메서드 추가
 
 ### v0.9 - Listener 컴포넌트를 사용하여 웹애플리케이션에서 사용할 도구 준비하기
 - 웹 애플리케이션이 시작되면 서블릿들이 공동으로 사용할 객체를 준비시킨다.
