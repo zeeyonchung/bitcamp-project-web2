@@ -62,7 +62,7 @@ public class TeacherDetailServlet extends HttpServlet {
           teacher.getPassword());
       out.printf("<tr><th>이름</th><td>"
           + "<input name='name' type='text' value='%s'></td></tr>\n", 
-          teacher.getEmail());
+          teacher.getName());
       out.printf("<tr><th>전화</th><td>"
           + "<input name='tel' type='text' value='%s'></td></tr>\n", 
           teacher.getTel());

@@ -2,13 +2,18 @@ package bitcamp.java89.ems2.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import bitcamp.java89.ems2.domain.Manager;
 import bitcamp.java89.ems2.domain.Member;
+import bitcamp.java89.ems2.domain.Photo;
+import bitcamp.java89.ems2.domain.Student;
+import bitcamp.java89.ems2.domain.Teacher;
 
 @WebServlet("/header")
 public class HeaderServlet extends HttpServlet {
@@ -35,20 +40,42 @@ public class HeaderServlet extends HttpServlet {
       
       out.println("</div>");
       
-      out.println("<div style='width:200px; height:38px;"
-          + "position:absolute; right:0px; top:0px; margin-right:10px;'>");
+      out.println("<div style='height:50px; padding-top:7px; float:right; padding-right:10px;'>");
       Member member = (Member)request.getSession().getAttribute("member");
       if (member == null) {
-        out.println("<a href='../auth/login' style='position:absolute; right:0px; top:15px;'>로그인</a>");
+        out.println("<a href='../auth/login''>로그인</a>");
       } else {
-        out.printf("<span style='position:absolute; right:76px; top:16px;'>%s</span>\n", member.getName());
-        out.println("<a href='../auth/logout' style='position:absolute; right:0px; top:15px;'>로그아웃</a>");
+        out.printf("<img src='../upload/%s' height='45' style='vertical-align:middle'>\n", this.getPhotoPath(member));
+        out.printf("<span >%s</span>\n", member.getName());
+        out.println("<a href='../auth/logout'>로그아웃</a>");
       }
       out.println("</div>");
       
       out.println("</div>");
       
       
+    }
+    
+    
+    
+    
+    
+    private String getPhotoPath(Member member) {
+      if (member instanceof Student) {
+        return ((Student)member).getPhotoPath();
+        
+      } else if (member instanceof Manager) {
+        return((Manager)member).getPhotoPath();
+        
+      } else /*if (member instanceof Teacher)*/ {
+        List<Photo> photoList = ((Teacher)member).getPhotoList();
+        if (photoList.size() > 0) {
+          return photoList.get(0).getFilePath();
+        } else {
+          return null;
+        }
+        
+      }
     }
    
   }
