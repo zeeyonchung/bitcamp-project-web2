@@ -1,4 +1,4 @@
-package bitcamp.java89.ems2.dao;
+package bitcamp.java89.ems2.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

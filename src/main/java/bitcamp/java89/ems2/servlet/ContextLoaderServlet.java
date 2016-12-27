@@ -5,11 +5,11 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
-import bitcamp.java89.ems2.dao.DataSource;
 import bitcamp.java89.ems2.dao.impl.ManagerMysqlDao;
 import bitcamp.java89.ems2.dao.impl.MemberMysqlDao;
 import bitcamp.java89.ems2.dao.impl.StudentMysqlDao;
 import bitcamp.java89.ems2.dao.impl.TeacherMysqlDao;
+import bitcamp.java89.ems2.util.DataSource;
 
 //@WebServlet 애노테이션이 필요 없다. web.xml에 설정.
 public class ContextLoaderServlet extends HttpServlet {

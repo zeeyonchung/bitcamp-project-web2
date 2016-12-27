@@ -5,9 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-import bitcamp.java89.ems2.dao.DataSource;
 import bitcamp.java89.ems2.dao.MemberDao;
 import bitcamp.java89.ems2.domain.Member;
+import bitcamp.java89.ems2.util.DataSource;
 
 public class MemberMysqlDao implements MemberDao {
   DataSource ds;

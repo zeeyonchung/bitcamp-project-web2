@@ -5,9 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-import bitcamp.java89.ems2.dao.DataSource;
 import bitcamp.java89.ems2.dao.StudentDao;
 import bitcamp.java89.ems2.domain.Student;
+import bitcamp.java89.ems2.util.DataSource;
 
 public class StudentMysqlDao implements StudentDao {
   DataSource ds;

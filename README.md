@@ -1,5 +1,8 @@
 # bitcamp-project-web2
 
+
+### v1.2 - 학생 등록시 사진 업로드 하기
+
 ### v1.0 - 쿠키를 이용하여 로그인 아이디 저장하기, 로그인 처리
 - 로그인 폼 생성
   - LoginFormServlet.java 생성
