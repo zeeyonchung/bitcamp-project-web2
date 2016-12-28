@@ -15,6 +15,7 @@ import bitcamp.java89.ems2.dao.ManagerDao;
 import bitcamp.java89.ems2.dao.MemberDao;
 import bitcamp.java89.ems2.domain.Manager;
 import bitcamp.java89.ems2.domain.Member;
+import bitcamp.java89.ems2.listener.ContextLoaderListener;
 import bitcamp.java89.ems2.util.MultipartUtil;
 
 @WebServlet("/manager/add")
@@ -56,13 +57,13 @@ public class ManagerAddServlet extends HttpServlet {
       
       out.println("<h1>등록 결과</h1>");
 
-      ManagerDao managerDao = (ManagerDao)this.getServletContext().getAttribute("managerDao");
+      ManagerDao managerDao = (ManagerDao)ContextLoaderListener.applicationContext.getBean("managerDao");
 
       if (managerDao.exist(dataMap.get("email"))) {
         throw new Exception("같은 사용자 아이디가 존재합니다. 등록을 취소합니다.");
       }
 
-      MemberDao memberDao = (MemberDao)this.getServletContext().getAttribute("memberDao");
+      MemberDao memberDao = (MemberDao)ContextLoaderListener.applicationContext.getBean("memberDao");
 
       if (!memberDao.exist(manager.getEmail())) {
         memberDao.insert(manager);

@@ -1,6 +1,17 @@
 # bitcamp-project-web2
 
 
+
+### v1.4 - 스프링 IoC 컨테이너 적용
+- 스프링 라이브러리 파일 준비
+  -  build.gradle 파일에 스프링 의존 라이브러리 추가
+  - 이클립스 설정 파일 갱신
+- 스프링 IoC 컨테이너가 사용할 설정 파일 준비
+  - /WEB-INF/conf/application-context.xml
+- ContextLoaderListener 클래스 변경
+  - 스프링 IoC 컨테이너 생성
+- DAO 도는 
+
 ### v1.3 - 로그인한 사용자의 유형 지정 및 로그인 사용자의 사진 출력하기
 
 ### v1.2 - 학생 등록시 사진 업로드 하기

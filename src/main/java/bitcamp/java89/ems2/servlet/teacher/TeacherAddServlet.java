@@ -17,6 +17,7 @@ import bitcamp.java89.ems2.dao.TeacherDao;
 import bitcamp.java89.ems2.domain.Member;
 import bitcamp.java89.ems2.domain.Photo;
 import bitcamp.java89.ems2.domain.Teacher;
+import bitcamp.java89.ems2.listener.ContextLoaderListener;
 import bitcamp.java89.ems2.util.MultipartUtil;
 
 @WebServlet("/teacher/add")
@@ -65,13 +66,13 @@ public class TeacherAddServlet extends HttpServlet {
       
       out.println("<h1>등록 결과</h1>");
 
-      TeacherDao teacherDao = (TeacherDao)this.getServletContext().getAttribute("teacherDao");
+      TeacherDao teacherDao = (TeacherDao)ContextLoaderListener.applicationContext.getBean("teacherDao");
 
       if (teacherDao.exist(dataMap.get("email"))) {
         throw new Exception("같은 사용자 아이디가 존재합니다. 등록을 취소합니다.");
       }
 
-      MemberDao memberDao = (MemberDao)this.getServletContext().getAttribute("memberDao");
+      MemberDao memberDao = (MemberDao)ContextLoaderListener.applicationContext.getBean("memberDao");
 
       if (!memberDao.exist(teacher.getEmail())) {
         memberDao.insert(teacher);

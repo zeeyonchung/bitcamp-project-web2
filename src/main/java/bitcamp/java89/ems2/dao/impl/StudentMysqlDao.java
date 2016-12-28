@@ -5,18 +5,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 import bitcamp.java89.ems2.dao.StudentDao;
 import bitcamp.java89.ems2.domain.Student;
 import bitcamp.java89.ems2.util.DataSource;
 
+
+@Repository("studentDao")
 public class StudentMysqlDao implements StudentDao {
-  DataSource ds;
+  @Autowired DataSource ds;
 
-
-  public void setDataSource(DataSource ds) {
-    this.ds = ds;
-  }
- 
   public ArrayList<Student> getList() throws Exception {
     ArrayList<Student> list = new ArrayList<>();
     Connection con = ds.getConnection(); // 커넥션풀에서 한 개의 Connection 객체를 임대한다.
