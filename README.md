@@ -1,6 +1,8 @@
 # bitcamp-project-web2
 
 
+### v1.5 - JSP를 사용하여 화면 출력 부분 분리
+- MVC 구조 완성
 
 ### v1.4 - 스프링 IoC 컨테이너 적용
 - 스프링 라이브러리 파일 준비
@@ -10,7 +12,10 @@
   - /WEB-INF/conf/application-context.xml
 - ContextLoaderListener 클래스 변경
   - 스프링 IoC 컨테이너 생성
-- DAO 도는 
+- DAO 또는 DataSource 객체에 @Component 애노테이션을 붙인다.
+  - 스프링 IoC 컨테이너는 이런 애노테이션이 붙은 객체를 관리해준다.
+- Servlet 클래스 변경
+  - 스프링 IoC 컨테이너를 통해 DAO 객체를 얻어야 한다.
 
 ### v1.3 - 로그인한 사용자의 유형 지정 및 로그인 사용자의 사진 출력하기
 

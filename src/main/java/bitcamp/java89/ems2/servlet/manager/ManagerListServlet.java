@@ -26,65 +26,17 @@ public class ManagerListServlet extends HttpServlet {
     try {
       response.setContentType("text/html;charset=UTF-8");
       PrintWriter out = response.getWriter();
-
-      out.println("<!DOCTYPE html>");
-      out.println("<html>");
-      out.println("<head>");
-      out.println("<meta charset='UTF-8'>");
-      out.println("<title>매니저관리-목록</title>");
-      out.println("</head>");
-      out.println("<body>");
       
-      
-      RequestDispatcher rd = request.getRequestDispatcher("/header");
-      rd.include(request, response);
       
       out.println("<h1>매니저 정보</h1>");
       ManagerDao managerDao = (ManagerDao)ContextLoaderListener.applicationContext.getBean("managerDao");
       ArrayList<Manager> list = managerDao.getList();
-
-      out.println("<a href='form.html'>추가</a><br>");
-      out.println("<table border='1'>");
-      out.println("<tr>");
-      out.println("  <th>회원번호</th>");
-      out.println("  <th>이름</th>");
-      out.println("  <th>전화</th>");
-      out.println("  <th>이메일</th>");
-      out.println("  <th>직급</th>");
-      out.println("  <th>팩스</th>");
-      out.println("  <th>사진</th>");
-      out.println("</tr>");
-
-      for (Manager manager : list) {
-        out.println("<tr> ");
-        out.printf("  <td>%d</td>"
-            + "<td><a href='detail?memberNo=%1$s'>%s</a></td>"
-            + "<td>%s</td>"
-            + "<td>%s</td>"
-            + "<td>%s</td>"
-            + "<td>%s</td>"
-            + "<td>%s</td>\n",
-            manager.getMemberNo(),
-            manager.getName(),
-            manager.getTel(),
-            manager.getEmail(),
-
-            manager.getPosition(),
-            manager.getFax(),
-            manager.getPhotoPath());
-        out.println("</tr>");
-      }
-
-      out.println("</table>");
       
-      
-      rd = request.getRequestDispatcher("/footer");
+      request.setAttribute("managers", list);
+
+      RequestDispatcher rd = request.getRequestDispatcher("/manager/list.jsp");
       rd.include(request, response);
-      
-      
-      out.println("</body>");
-      out.println("</html>");
-
+    
     } catch (Exception e) {
       RequestDispatcher rd = request.getRequestDispatcher("/error");
       rd.forward(request, response);

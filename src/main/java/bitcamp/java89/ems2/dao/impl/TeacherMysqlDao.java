@@ -74,7 +74,7 @@ public class TeacherMysqlDao implements TeacherDao {
         teacher.setTel(rs.getString("tel"));
         teacher.setEmail(rs.getString("email"));
         teacher.setHomepage(rs.getString("hmpg"));
-        teacher.setFacabook(rs.getString("fcbk"));
+        teacher.setFacebook(rs.getString("fcbk"));
         teacher.setTwitter(rs.getString("twit"));
 
         list.add(teacher);
@@ -118,7 +118,7 @@ public class TeacherMysqlDao implements TeacherDao {
           teacher.setTel(rs.getString("tel"));
           teacher.setEmail(rs.getString("email"));
           teacher.setHomepage(rs.getString("hmpg"));
-          teacher.setFacabook(rs.getString("fcbk"));
+          teacher.setFacebook(rs.getString("fcbk"));
           teacher.setTwitter(rs.getString("twit"));
         }
         
@@ -181,7 +181,7 @@ public class TeacherMysqlDao implements TeacherDao {
 
       stmt.setInt(1, teacher.getMemberNo());
       stmt.setString(2, teacher.getHomepage());
-      stmt.setString(3, teacher.getFacabook());
+      stmt.setString(3, teacher.getFacebook());
       stmt.setString(4, teacher.getTwitter());
 
       stmt.executeUpdate();
@@ -230,7 +230,7 @@ public class TeacherMysqlDao implements TeacherDao {
                 + "where tno=?"); ) {
 
       stmt.setString(1, teacher.getHomepage());
-      stmt.setString(2, teacher.getFacabook());
+      stmt.setString(2, teacher.getFacebook());
       stmt.setString(3, teacher.getTwitter());
       stmt.setInt(4, teacher.getMemberNo());
 

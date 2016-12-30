@@ -37,7 +37,7 @@ public class TeacherAddServlet extends HttpServlet {
       teacher.setName(dataMap.get("name"));
       teacher.setTel(dataMap.get("tel"));
       teacher.setHomepage(dataMap.get("homepage"));
-      teacher.setFacabook(dataMap.get("facebook"));
+      teacher.setFacebook(dataMap.get("facebook"));
       teacher.setTwitter(dataMap.get("twitter"));
       
       ArrayList<Photo> photoList = new ArrayList<>();

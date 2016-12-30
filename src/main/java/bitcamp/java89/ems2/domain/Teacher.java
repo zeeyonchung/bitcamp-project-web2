@@ -6,7 +6,7 @@ public class Teacher extends Member {
   private static final long serialVersionUID = 1L;
   
   protected String homepage;
-  protected String facabook;
+  protected String facebook;
   protected String twitter;
   protected List<Photo> photoList;
   
@@ -18,11 +18,11 @@ public class Teacher extends Member {
   public void setHomepage(String homepage) {
     this.homepage = homepage;
   }
-  public String getFacabook() {
-    return facabook;
+  public String getFacebook() {
+    return facebook;
   }
-  public void setFacabook(String facabook) {
-    this.facabook = facabook;
+  public void setFacebook(String facebook) {
+    this.facebook = facebook;
   }
   public String getTwitter() {
     return twitter;
