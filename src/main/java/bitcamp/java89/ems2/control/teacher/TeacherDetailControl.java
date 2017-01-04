@@ -32,7 +32,9 @@ public class TeacherDetailControl implements PageController {
     List<Photo> photoList = teacher.getPhotoList();
     
     request.setAttribute("photoList", photoList);
+    request.setAttribute("title", "강사관리-상세보기");
+    request.setAttribute("contentPage", "/teacher/detail.jsp");
     
-    return "/teacher/detail.jsp";
+    return "/main.jsp";
   }
 }

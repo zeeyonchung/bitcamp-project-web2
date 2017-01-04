@@ -22,11 +22,13 @@ public class StudentDetailControl implements PageController {
     Student student = studentDao.getOne(memberNo);
     
     request.setAttribute("student", student);
+    request.setAttribute("title", "학생관리-상세보기");
+    request.setAttribute("contentPage", "/student/detail.jsp");
 
     if (student == null) {
       throw new Exception("해당 아이디의 학생이 없습니다.");
     }
 
-    return "/student/detail.jsp";
+    return "/main.jsp";
   }
 }

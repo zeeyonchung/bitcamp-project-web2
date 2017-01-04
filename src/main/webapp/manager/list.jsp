@@ -5,17 +5,6 @@
     trimDirectiveWhitespaces="true"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset='UTF-8'>
-<title>매니저관리-목록</title>
-</head>
-<body>
-
-<jsp:include page="../header.jsp"></jsp:include>
-
-
 <h1>매니저 정보</h1>
 <a href='form.html'>추가</a><br>
   <table border='1'>
@@ -45,9 +34,3 @@
 </c:forEach>
 
 </table>
-
-
-<jsp:include page="../footer.jsp"></jsp:include>
-
-</body>
-</html>

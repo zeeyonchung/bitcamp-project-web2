@@ -21,11 +21,13 @@ public class ManagerDetailControl implements PageController {
     Manager manager = managerDao.getOne(memberNo);
     
     request.setAttribute("manager", manager);
+    request.setAttribute("title", "매니저관리-상세보기");
+    request.setAttribute("contentPage", "/manager/detail.jsp");
 
     if (manager == null) {
       throw new Exception("해당 아이디의 학생이 없습니다.");
     }
 
-    return "/manager/detail.jsp";
+    return "/main.jsp";
   }
 }

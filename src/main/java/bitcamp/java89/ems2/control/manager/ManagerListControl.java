@@ -21,8 +21,10 @@ public class ManagerListControl implements PageController {
   public String service(HttpServletRequest request, HttpServletResponse response) throws Exception {
     ArrayList<Manager> list = managerDao.getList();
     request.setAttribute("managers", list);
+    request.setAttribute("title", "매니저관리-목록");
+    request.setAttribute("contentPage", "/manager/list.jsp");
 
-    return "/manager/list.jsp";
+    return "/main.jsp";
   }
 }
 
