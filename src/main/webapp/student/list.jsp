@@ -30,7 +30,7 @@
 
 <c:forEach var="student" items="${students}">
 <tr> 
-  <td>${student.memberNo}</td><td><a href='detail?memberNo=${student.memberNo}'>${student.name}</a></td>
+  <td>${student.memberNo}</td><td><a href='detail.do?memberNo=${student.memberNo}'>${student.name}</a></td>
   <td>${student.tel}</td>
   <td>${student.working }</td>
   <td>${student.grade}</td>

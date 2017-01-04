@@ -141,9 +141,10 @@ public class MemberMysqlDao implements MemberDao {
         PreparedStatement stmt = con.prepareStatement(
             "select mno, email, name, tel "
                 + "from memb "
-                + "where email=?"); ) {
+                + "where email=? and pwd=password(?)"); ) {
 
       stmt.setString(1, email);
+      stmt.setString(2, password);
       ResultSet rs = stmt.executeQuery();
 
 

@@ -16,7 +16,7 @@
 <jsp:include page="../header.jsp"></jsp:include>
 
 <h1>매니저 정보</h1>
-<form action='update' method='POST' enctype='multipart/form-data'>
+<form action='update.do' method='POST' enctype='multipart/form-data'>
 <table border='1'>
 
 <tr><th>이메일</th><td><input name='email' type='text' value='${manager.email}'></td></tr>
@@ -30,9 +30,9 @@
 
 
 <button type='submit'>변경</button>
-<a href='delete?memberNo=${manager.memberNo}'>삭제</a>
+<a href='delete.do?memberNo=${manager.memberNo}'>삭제</a>
 <input name='memberNo' type='hidden' value='${manager.memberNo}'>
-<a href='list'>목록</a>
+<a href='list.do'>목록</a>
 </form>
 
 

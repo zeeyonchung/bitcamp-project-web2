@@ -34,7 +34,7 @@
 <c:forEach var="teacher" items="${teachers}">
 <tr> 
 	<td>${teacher.memberNo}</td>
-	<td><a href='detail?memberNo=${teacher.memberNo}'>${teacher.name}</a></td>
+	<td><a href='detail.do?memberNo=${teacher.memberNo}'>${teacher.name}</a></td>
 	<td>${teacher.tel}</td>
 	<td>${teacher.email}</td>
 	<td>${teacher.homepage}</td>
