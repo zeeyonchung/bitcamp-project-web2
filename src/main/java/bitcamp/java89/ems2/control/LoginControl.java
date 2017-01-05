@@ -1,4 +1,4 @@
-package bitcamp.java89.ems2.control.auth;
+package bitcamp.java89.ems2.control;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import bitcamp.java89.ems2.control.PageController;
+import bitcamp.java89.ems2.annotation.RequestMapping;
 import bitcamp.java89.ems2.dao.ManagerDao;
 import bitcamp.java89.ems2.dao.MemberDao;
 import bitcamp.java89.ems2.dao.StudentDao;
@@ -15,15 +15,15 @@ import bitcamp.java89.ems2.dao.TeacherDao;
 import bitcamp.java89.ems2.domain.Member;
 
 
-@Controller("/auth/login.do")
-public class LoginControl implements PageController {
+@Controller
+public class LoginControl {
   @Autowired MemberDao memberDao;
   @Autowired StudentDao studentDao;
   @Autowired ManagerDao managerDao;
   @Autowired TeacherDao teacherDao;
   
-  @Override
-  public String service(HttpServletRequest request, HttpServletResponse response) throws Exception {
+  @RequestMapping("/auth/login.do")
+  public String login(HttpServletRequest request, HttpServletResponse response) throws Exception {
     String saveEmail = request.getParameter("saveEmail");
     String email = request.getParameter("email");
     String password = request.getParameter("password");
@@ -75,6 +75,23 @@ public class LoginControl implements PageController {
     } else /*if (userType.equals(Member.MANAGER))*/ {
       return managerDao.getOne(memberNo);
     }
+  }
+  
+  
+  
+  @RequestMapping("/auth/loginform.do")
+  public String loginform(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    request.setAttribute("title", "로그인");
+    request.setAttribute("contentPage", "/auth/loginform.jsp");
+    
+    return "/main.jsp";
+  }
+  
+  
+  @RequestMapping("/auth/logout.do")
+  public String logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    request.getSession().invalidate();
+    return "redirect:loginform.do";
   }
 
 

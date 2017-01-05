@@ -1,6 +1,7 @@
 package bitcamp.java89.ems2.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,49 +13,51 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import bitcamp.java89.ems2.control.PageController;
+import bitcamp.java89.ems2.context.RequestHandlerMapping;
+import bitcamp.java89.ems2.context.RequestHandlerMapping.RequestHandler;
 
 @WebServlet("*.do")
 public class DispatcherServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
+  ApplicationContext applicationContext;
+  RequestHandlerMapping handlerMapping;
+  
+  @Override
+  public void init() throws ServletException {
+    applicationContext = WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
+    
+    String[] names = applicationContext.getBeanDefinitionNames();
+    ArrayList<Object> objList = new ArrayList<>();
+    for(String name : names) {
+      objList.add(applicationContext.getBean(name));
+    }
+    
+    handlerMapping = new RequestHandlerMapping(objList);
+  }
 
   @Override
   protected void service(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
     try {
-      // 클라이언트가 요청한 서블릿 주소
       String servletPath = request.getServletPath();
-      
-      // 내부 서블릿이나 JSP에서 include 하는 경우, 기존 ServletRequest를 사용하기 때문에
-      // getServletPath()가 리턴한 값이 이전 값과 같다. 
-      // 그래서 내부에서 include 또는 forward 한 경우를 고려해서 
-      // 파라미터로 따로 전달된 서블릿 경로를 사용하자.
-      
-//      if (request.getParameter("servletPath") != null) {
-//        servletPath = request.getParameter("servletPath");
-//      }
 
-      // 스프링 IoC 컨테이너에서 서블릿 경로에 해당하는 객체를 찾는다.
-      PageController pageController = null;
-      
+      // RequestHandlerMapping 객체에서 클라이언트 요청을 처리할 메서드 정보를 찾는다.
+      RequestHandler requestHandler = null;
       try {
-        ApplicationContext applicationContext = WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
-        pageController = (PageController)applicationContext.getBean(servletPath);
+        requestHandler = handlerMapping.getRequestHandler(servletPath);
       } catch (Exception e) {}
       
       
-      String viewUrl;
-      if (pageController != null) {
-        // 페이지 컨트롤러를 호출하여 작업을 실행시킨다.
-        viewUrl = pageController.service(request, response);
+      // 요청을 처리할 메서드를 찾았다면 호출한다.
+      String viewUrl = null;
+      if (requestHandler != null) {
+        viewUrl = (String)requestHandler.method.invoke(requestHandler.obj, request, response);
       } else {
         viewUrl = servletPath.replaceAll(".do", ".jsp");
       }
-      
       if (viewUrl.startsWith("redirect:")) {
         response.sendRedirect(viewUrl.substring(9));
         
       } else {
-        // 페이지 컨트롤러가 리턴한 뷰 컴포넌트(JSP)로 화면 출력을 위임한다.
         response.setContentType("text/html;charset=UTF-8");
         RequestDispatcher rd = request.getRequestDispatcher(viewUrl);
         rd.include(request, response);
