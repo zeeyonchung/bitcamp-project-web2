@@ -1,15 +1,16 @@
 package bitcamp.java89.ems2.control;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import bitcamp.java89.ems2.dao.ManagerDao;
 import bitcamp.java89.ems2.dao.MemberDao;
@@ -22,6 +23,7 @@ import bitcamp.java89.ems2.util.MultipartUtil;
 
 @Controller
 public class TeacherControl {
+  @Autowired ServletContext sc;
   @Autowired MemberDao memberDao;
   @Autowired StudentDao studentDao;
   @Autowired ManagerDao managerDao;
@@ -31,24 +33,23 @@ public class TeacherControl {
   
   
   
-  @RequestMapping("/teacher/list.do")
-  public String list(HttpServletRequest request, HttpServletResponse response) throws Exception {
+  @RequestMapping("/teacher/list")
+  public String list(Model model) throws Exception {
     ArrayList<Teacher> list = teacherDao.getList();
-    request.setAttribute("teachers", list);
-    request.setAttribute("title", "강사관리-목록");
-    request.setAttribute("contentPage", "/teacher/list.jsp");
+    model.addAttribute("teachers", list);
+    model.addAttribute("title", "강사관리-목록");
+    model.addAttribute("contentPage", "/teacher/list.jsp");
     
-    return "/main.jsp";
+    return "main";
   }
   
   
-  @RequestMapping("/teacher/detail.do")
-  public String detail(HttpServletRequest request, HttpServletResponse response) throws Exception {
-    int memberNo = Integer.parseInt(request.getParameter("memberNo"));
-
+  @RequestMapping("/teacher/detail")
+  public String detail(int memberNo, Model model) throws Exception {
+    
     Teacher teacher = teacherDao.getOne(memberNo);
-
-    request.setAttribute("teacher", teacher);
+    
+    model.addAttribute("teacher", teacher);
     
     if (teacher == null) {
       throw new Exception("해당 아이디의 학생이 없습니다.");
@@ -56,17 +57,16 @@ public class TeacherControl {
 
     List<Photo> photoList = teacher.getPhotoList();
     
-    request.setAttribute("photoList", photoList);
-    request.setAttribute("title", "강사관리-상세보기");
-    request.setAttribute("contentPage", "/teacher/detail.jsp");
+    model.addAttribute("photoList", photoList);
+    model.addAttribute("title", "강사관리-상세보기");
+    model.addAttribute("contentPage", "/teacher/detail.jsp");
     
-    return "/main.jsp";
+    return "main";
   }
   
   
-  @RequestMapping("/teacher/delete.do")
-  public String delete(HttpServletRequest request, HttpServletResponse response) throws Exception {
-    int memberNo = Integer.parseInt(request.getParameter("memberNo"));
+  @RequestMapping("/teacher/delete")
+  public String delete(int memberNo) throws Exception {
 
     if (!teacherDao.exist(memberNo)) {
       throw new Exception("사용자를 찾지 못했습니다.");
@@ -82,37 +82,34 @@ public class TeacherControl {
   }
   
   
-  @RequestMapping("/teacher/add.do")
-  public String add(HttpServletRequest request, HttpServletResponse response) throws Exception {
-    Map<String, String> dataMap = MultipartUtil.parse(request);
-    Teacher teacher = new Teacher();
-    teacher.setEmail(dataMap.get("email"));
-    teacher.setPassword(dataMap.get("password"));
-    teacher.setName(dataMap.get("name"));
-    teacher.setTel(dataMap.get("tel"));
-    teacher.setHomepage(dataMap.get("homepage"));
-    teacher.setFacebook(dataMap.get("facebook"));
-    teacher.setTwitter(dataMap.get("twitter"));
+  @RequestMapping("/teacher/add")
+  public String add(Teacher teacher, MultipartFile[] photo) throws Exception {
     
-    ArrayList<Photo> photoList = new ArrayList<>();
-    photoList.add(new Photo(dataMap.get("photoPath1")));
-    photoList.add(new Photo(dataMap.get("photoPath2")));
-    photoList.add(new Photo(dataMap.get("photoPath3")));
-    
-    teacher.setPhotoList(photoList);
-
-
-    if (teacherDao.exist(dataMap.get("email"))) {
+    if (teacherDao.exist(teacher.getEmail())) {
       throw new Exception("같은 사용자 아이디가 존재합니다. 등록을 취소합니다.");
     }
-
-
+    
+    
     if (!memberDao.exist(teacher.getEmail())) {
       memberDao.insert(teacher);
     } else {
       Member member = memberDao.getOne(teacher.getEmail());
       teacher.setMemberNo(member.getMemberNo());
     }
+    
+    ArrayList<Photo> photoList = new ArrayList<>();
+
+    for (MultipartFile file : photo) {
+      if (file.getSize() > 0) {
+        String newFilename = MultipartUtil.generateFilename();
+        file.transferTo(new File(sc.getRealPath("/upload/" + newFilename)));
+        photoList.add(new Photo(newFilename));
+      }
+    }
+    
+    teacher.setPhotoList(photoList);
+
+
 
     teacherDao.insert(teacher);
 
@@ -120,34 +117,28 @@ public class TeacherControl {
   }
   
   
-  @RequestMapping("/teacher/update.do")
-  public String update(HttpServletRequest request, HttpServletResponse response) throws Exception {
-    Map<String, String> dataMap = MultipartUtil.parse(request);
+  @RequestMapping("/teacher/update")
+  public String update(Teacher teacher, MultipartFile[] photo) throws Exception {
     
-    Teacher teacher = new Teacher();
-    teacher.setMemberNo(Integer.parseInt(dataMap.get("memberNo")));
-    teacher.setEmail(dataMap.get("email"));
-    teacher.setPassword(dataMap.get("password"));
-    teacher.setName(dataMap.get("name"));
-    teacher.setTel(dataMap.get("tel"));
-    teacher.setHomepage(dataMap.get("homepage"));
-    teacher.setFacebook(dataMap.get("facebook"));
-    teacher.setTwitter(dataMap.get("twitter"));
     
-    ArrayList<Photo> photoList = new ArrayList<>();
-    photoList.add(new Photo(dataMap.get("photoPath1")));
-    photoList.add(new Photo(dataMap.get("photoPath2")));
-    photoList.add(new Photo(dataMap.get("photoPath3")));
-    
-    teacher.setPhotoList(photoList);
-    
-
-
     if (!teacherDao.exist(teacher.getMemberNo())) {
       throw new Exception("사용자를 찾지 못했습니다.");
     }
-
+    
     memberDao.update(teacher);
+    
+    ArrayList<Photo> photoList = new ArrayList<>();
+    
+    for (MultipartFile file : photo) {
+      if (file.getSize() > 0) {
+        String newFilename = MultipartUtil.generateFilename();
+        file.transferTo(new File(sc.getRealPath("/upload/" + newFilename)));
+        photoList.add(new Photo(newFilename));
+      }
+    }
+
+    teacher.setPhotoList(photoList);
+
     teacherDao.update(teacher);
 
     return "redirect:list.do";

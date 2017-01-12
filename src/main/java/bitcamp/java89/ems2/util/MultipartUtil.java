@@ -15,6 +15,15 @@ public class MultipartUtil {
   
   static int count = 0;
   
+  public static String generateFilename() {
+    if (count > 100) {
+      count = 0;
+    }
+    
+    return System.currentTimeMillis() + "_" + count++;
+  }
+  
+  
   public static Map<String, String> parse(HttpServletRequest request) throws Exception {
     HashMap<String, String> map = new HashMap<>();
     
@@ -33,7 +42,7 @@ public class MultipartUtil {
             continue;
           }
           
-          String filename = System.currentTimeMillis() + "_" + count++;
+          String filename = generateFilename();
           
           item.write(new File(request.getServletContext().getRealPath(
               "/upload/" + filename)));

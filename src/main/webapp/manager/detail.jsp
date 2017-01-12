@@ -15,7 +15,7 @@
 <tr><th>전화</th><td><input name='tel' type='text' value='${manager.tel}'></td></tr>
 <tr><th>직급</th><td><input name='position' type='text' value='${manager.tel}'></td></tr>
 <tr><th>팩스</th><td><input name='fax' type='text' value='${manager.tel}'></td></tr>
-<tr><th>사진</th><td><img src='../upload/${manager.photoPath}' height='80'><input name='photoPath' type='file'></td></tr>
+<tr><th>사진</th><td><img src='../upload/${manager.photoPath}' height='80'><input name='photo' type='file'></td></tr>
 </table>
 
 
