@@ -57,13 +57,13 @@ public class ManagerControl {
   @RequestMapping("/manager/delete")
   public String delete(int memberNo) throws Exception {
     
-    if (!managerDao.exist(memberNo)) {
+    if (managerDao.countByNo(memberNo) == 0) {
       throw new Exception("사용자를 찾지 못했습니다.");
     }
 
     managerDao.delete(memberNo);
 
-    if (!teacherDao.exist(memberNo) && !studentDao.exist(memberNo)) {
+    if (teacherDao.countByNo(memberNo) == 0 && studentDao.countByNo(memberNo) == 0) {
       memberDao.delete(memberNo);
     }
 
@@ -74,11 +74,11 @@ public class ManagerControl {
   @RequestMapping("/manager/add")
   public String add(Manager manager, MultipartFile photo) throws Exception {
 
-    if (managerDao.exist(manager.getEmail())) {
+    if (managerDao.count(manager.getEmail()) > 0) {
       throw new Exception("같은 사용자 아이디가 존재합니다. 등록을 취소합니다.");
     }
 
-    if (!memberDao.exist(manager.getEmail())) {
+    if (memberDao.count(manager.getEmail()) == 0) {
       memberDao.insert(manager);
     } else {
       Member member = memberDao.getOne(manager.getEmail());
@@ -100,7 +100,7 @@ public class ManagerControl {
   @RequestMapping("/manager/update")
   public String update(Manager manager, MultipartFile photo) throws Exception {
 
-    if (!managerDao.exist(manager.getMemberNo())) {
+    if (managerDao.countByNo(manager.getMemberNo()) == 0) {
       throw new Exception("사용자를 찾지 못했습니다.");
     }
 

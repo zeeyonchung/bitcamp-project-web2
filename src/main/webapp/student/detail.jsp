@@ -13,10 +13,10 @@
 <tr><th>이름</th><td><input name='name' type='text' value='${student.name}'></td></tr>
 <tr><th>전화</th><td><input name='tel' type='text' value='${student.tel}'></td></tr>
 <tr><th>재직여부</th><td>
-  <input type='radio' name='working' value='true'
-  <c:if test="${student.working}">checked</c:if> >재직중
-  <input type='radio' name='working' value='false'
-  <c:if test="${student.working}">checked</c:if> >실업/미취업</td></tr>
+  <input type='radio' name='working' value='true' 
+  <c:if test="${student.working}">checked</c:if> >재직중 
+  <input type='radio' name='working' value='false' 
+  <c:if test="${!student.working}">checked</c:if> >실업/미취업</td></tr>
 <tr><th>최종학력</th><td>
 	<select name='grade'>
 	<option value='고졸' <c:if test="${student.grade=='고졸'}">selected</c:if>>고졸</option>

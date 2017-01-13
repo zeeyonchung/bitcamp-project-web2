@@ -59,11 +59,11 @@ public class StudentControl {
   @RequestMapping("/student/add")
   public String add(Student student, MultipartFile photo) throws Exception {
 
-    if (studentDao.exist(student.getEmail())) {
+    if (studentDao.count(student.getEmail()) > 0) {
       throw new Exception("같은 사용자 아이디가 존재합니다. 등록을 취소합니다.");
     }
     
-    if (!memberDao.exist(student.getEmail())) {
+    if (memberDao.count(student.getEmail()) == 0) {
       memberDao.insert(student);
     } else {
       Member member = memberDao.getOne(student.getEmail());
@@ -85,13 +85,13 @@ public class StudentControl {
   @RequestMapping("/student/delete")
   public String delete(int memberNo) throws Exception {
 
-    if (!studentDao.exist(memberNo)) {
+    if (studentDao.countByNo(memberNo) == 0) {
       throw new Exception("사용자를 찾지 못했습니다.");
     }
 
     studentDao.delete(memberNo);
 
-    if (!managerDao.exist(memberNo) && !teacherDao.exist(memberNo)) {
+    if (managerDao.countByNo(memberNo) == 0 && teacherDao.countByNo(memberNo) == 0) {
       memberDao.delete(memberNo);
     }
 
@@ -102,7 +102,7 @@ public class StudentControl {
   @RequestMapping("/student/update")
   public String update(Student student, MultipartFile photo) throws Exception {
 
-    if (!studentDao.exist(student.getMemberNo())) {
+    if (studentDao.countByNo(student.getMemberNo()) == 0) {
       throw new Exception("사용자를 찾지 못했습니다.");
     }
     memberDao.update(student);

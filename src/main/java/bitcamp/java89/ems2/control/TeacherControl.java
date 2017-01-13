@@ -47,7 +47,7 @@ public class TeacherControl {
   @RequestMapping("/teacher/detail")
   public String detail(int memberNo, Model model) throws Exception {
     
-    Teacher teacher = teacherDao.getOne(memberNo);
+    Teacher teacher = teacherDao.getOneWithPhoto(memberNo);
     
     model.addAttribute("teacher", teacher);
     
@@ -68,13 +68,14 @@ public class TeacherControl {
   @RequestMapping("/teacher/delete")
   public String delete(int memberNo) throws Exception {
 
-    if (!teacherDao.exist(memberNo)) {
+    if (teacherDao.countByNo(memberNo) == 0) {
       throw new Exception("사용자를 찾지 못했습니다.");
     }
 
+    teacherDao.deletePhotoList(memberNo);
     teacherDao.delete(memberNo);
 
-    if (!managerDao.exist(memberNo) && !studentDao.exist(memberNo)) {
+    if (managerDao.countByNo(memberNo) == 0 && studentDao.countByNo(memberNo) == 0) {
       memberDao.delete(memberNo);
     }
 
@@ -85,12 +86,12 @@ public class TeacherControl {
   @RequestMapping("/teacher/add")
   public String add(Teacher teacher, MultipartFile[] photo) throws Exception {
     
-    if (teacherDao.exist(teacher.getEmail())) {
+    if (teacherDao.count(teacher.getEmail()) > 0) {
       throw new Exception("같은 사용자 아이디가 존재합니다. 등록을 취소합니다.");
     }
     
     
-    if (!memberDao.exist(teacher.getEmail())) {
+    if (memberDao.count(teacher.getEmail()) == 0) {
       memberDao.insert(teacher);
     } else {
       Member member = memberDao.getOne(teacher.getEmail());
@@ -109,9 +110,9 @@ public class TeacherControl {
     
     teacher.setPhotoList(photoList);
 
-
-
     teacherDao.insert(teacher);
+
+    teacherDao.insertPhotoList(teacher);
 
     return "redirect:list.do";
   }
@@ -121,7 +122,7 @@ public class TeacherControl {
   public String update(Teacher teacher, MultipartFile[] photo) throws Exception {
     
     
-    if (!teacherDao.exist(teacher.getMemberNo())) {
+    if (teacherDao.countByNo(teacher.getMemberNo()) == 0) {
       throw new Exception("사용자를 찾지 못했습니다.");
     }
     
@@ -140,6 +141,9 @@ public class TeacherControl {
     teacher.setPhotoList(photoList);
 
     teacherDao.update(teacher);
+    
+    teacherDao.deletePhotoList(teacher.getMemberNo());
+    teacherDao.insertPhotoList(teacher);
 
     return "redirect:list.do";
   }

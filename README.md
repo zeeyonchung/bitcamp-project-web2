@@ -1,5 +1,6 @@
 # bitcamp-project-web2
 
+### v2.3 - Persistence Framework인 Mybatis 적용하기
 
 ### v2.2 - 페이지 컨트롤러에서 요청 핸들러의 파라미터 값 적용
 

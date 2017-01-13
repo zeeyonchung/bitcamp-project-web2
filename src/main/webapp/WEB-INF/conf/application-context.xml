@@ -7,13 +7,36 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
-  <!-- 스프링 IoC 컨테이너가 클래스를 찾는 위치를 지정한다. 
-       => 이 패키지와 하위 패키지를 모두 뒤져서 
-          @Component, @Controller, @Repository, @Service 애노테이션이 붙은 
-          클래스를 찾아 인스턴스를 생성한다.
-  -->
+
   <context:component-scan base-package="bitcamp.java89.ems2">
     <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
   </context:component-scan>
+  
+  
+  <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <property name="locations" value="/WEB-INF/conf/jdbc.properties"/>
+  </bean>
+  
+  <bean id="dataSource" destroy-method="close"
+          class="org.apache.commons.dbcp.BasicDataSource">
+    <property name="driverClassName" value="${jdbc.driverClassName}"/>
+    <property name="url" value="${jdbc.url}"/>
+    <property name="username" value="${jdbc.username}"/>
+    <property name="password" value="${jdbc.password}"/>
+  </bean>
+
+  <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <property name="dataSource" ref="dataSource"/>
+  </bean>
+  
+  <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+    <property name="dataSource" ref="dataSource"/>
+    <property name="mapperLocations" value="classpath*:bitcamp/java89/ems2/*Dao.xml" />
+    <property name="typeAliasesPackage" value="bitcamp.java89.ems2.domain" />
+  </bean>
+  
+  <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+    <property name="basePackage" value="bitcamp.java89.ems2.dao" />
+  </bean>
 
 </beans>
