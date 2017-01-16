@@ -16,9 +16,9 @@ import bitcamp.java89.ems2.dao.ManagerDao;
 import bitcamp.java89.ems2.dao.MemberDao;
 import bitcamp.java89.ems2.dao.StudentDao;
 import bitcamp.java89.ems2.dao.TeacherDao;
-import bitcamp.java89.ems2.domain.Member;
 import bitcamp.java89.ems2.domain.Photo;
 import bitcamp.java89.ems2.domain.Teacher;
+import bitcamp.java89.ems2.service.TeacherService;
 import bitcamp.java89.ems2.util.MultipartUtil;
 
 @Controller
@@ -28,14 +28,13 @@ public class TeacherControl {
   @Autowired StudentDao studentDao;
   @Autowired ManagerDao managerDao;
   @Autowired TeacherDao teacherDao;
+  
+  @Autowired TeacherService teacherService;
 
-  
-  
-  
   
   @RequestMapping("/teacher/list")
   public String list(Model model) throws Exception {
-    ArrayList<Teacher> list = teacherDao.getList();
+    List<Teacher> list = teacherService.getList();
     model.addAttribute("teachers", list);
     model.addAttribute("title", "강사관리-목록");
     model.addAttribute("contentPage", "/teacher/list.jsp");
@@ -47,13 +46,9 @@ public class TeacherControl {
   @RequestMapping("/teacher/detail")
   public String detail(int memberNo, Model model) throws Exception {
     
-    Teacher teacher = teacherDao.getOneWithPhoto(memberNo);
+    Teacher teacher = teacherService.getDetail(memberNo);
     
     model.addAttribute("teacher", teacher);
-    
-    if (teacher == null) {
-      throw new Exception("해당 아이디의 학생이 없습니다.");
-    }
 
     List<Photo> photoList = teacher.getPhotoList();
     
@@ -68,16 +63,7 @@ public class TeacherControl {
   @RequestMapping("/teacher/delete")
   public String delete(int memberNo) throws Exception {
 
-    if (teacherDao.countByNo(memberNo) == 0) {
-      throw new Exception("사용자를 찾지 못했습니다.");
-    }
-
-    teacherDao.deletePhotoList(memberNo);
-    teacherDao.delete(memberNo);
-
-    if (managerDao.countByNo(memberNo) == 0 && studentDao.countByNo(memberNo) == 0) {
-      memberDao.delete(memberNo);
-    }
+    teacherService.delete(memberNo);
 
     return "redirect:list.do";
   }
@@ -86,17 +72,6 @@ public class TeacherControl {
   @RequestMapping("/teacher/add")
   public String add(Teacher teacher, MultipartFile[] photo) throws Exception {
     
-    if (teacherDao.count(teacher.getEmail()) > 0) {
-      throw new Exception("같은 사용자 아이디가 존재합니다. 등록을 취소합니다.");
-    }
-    
-    
-    if (memberDao.count(teacher.getEmail()) == 0) {
-      memberDao.insert(teacher);
-    } else {
-      Member member = memberDao.getOne(teacher.getEmail());
-      teacher.setMemberNo(member.getMemberNo());
-    }
     
     ArrayList<Photo> photoList = new ArrayList<>();
 
@@ -109,10 +84,7 @@ public class TeacherControl {
     }
     
     teacher.setPhotoList(photoList);
-
-    teacherDao.insert(teacher);
-
-    teacherDao.insertPhotoList(teacher);
+    teacherService.add(teacher);
 
     return "redirect:list.do";
   }
@@ -121,13 +93,6 @@ public class TeacherControl {
   @RequestMapping("/teacher/update")
   public String update(Teacher teacher, MultipartFile[] photo) throws Exception {
     
-    
-    if (teacherDao.countByNo(teacher.getMemberNo()) == 0) {
-      throw new Exception("사용자를 찾지 못했습니다.");
-    }
-    
-    memberDao.update(teacher);
-    
     ArrayList<Photo> photoList = new ArrayList<>();
     
     for (MultipartFile file : photo) {
@@ -140,10 +105,7 @@ public class TeacherControl {
 
     teacher.setPhotoList(photoList);
 
-    teacherDao.update(teacher);
-    
-    teacherDao.deletePhotoList(teacher.getMemberNo());
-    teacherDao.insertPhotoList(teacher);
+    teacherService.update(teacher);
 
     return "redirect:list.do";
   }

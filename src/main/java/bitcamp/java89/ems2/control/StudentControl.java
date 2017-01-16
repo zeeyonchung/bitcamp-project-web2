@@ -1,7 +1,7 @@
 package bitcamp.java89.ems2.control;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 
@@ -11,26 +11,18 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
-import bitcamp.java89.ems2.dao.ManagerDao;
-import bitcamp.java89.ems2.dao.MemberDao;
-import bitcamp.java89.ems2.dao.StudentDao;
-import bitcamp.java89.ems2.dao.TeacherDao;
-import bitcamp.java89.ems2.domain.Member;
 import bitcamp.java89.ems2.domain.Student;
+import bitcamp.java89.ems2.service.impl.StudentServiceImpl;
 import bitcamp.java89.ems2.util.MultipartUtil;
 
 @Controller
 public class StudentControl {
   @Autowired ServletContext sc;
-  @Autowired MemberDao memberDao;
-  @Autowired StudentDao studentDao;
-  @Autowired ManagerDao managerDao;
-  @Autowired TeacherDao teacherDao;
-  
+  @Autowired StudentServiceImpl studentService;
   
   @RequestMapping("/student/list")
   public String list(Model model) throws Exception {
-    ArrayList<Student> list = studentDao.getList();
+    List<Student> list = studentService.getList();
     model.addAttribute("students", list);
     model.addAttribute("title", "학생관리-목록");
     model.addAttribute("contentPage", "/student/list.jsp");
@@ -42,15 +34,15 @@ public class StudentControl {
   @RequestMapping("/student/detail")
   public String detail(int memberNo, Model model) throws Exception {
 
-    Student student = studentDao.getOne(memberNo);
+    Student student = studentService.getDatail(memberNo);
+    
+    if (student == null) {
+      throw new Exception("해당 아이디의 학생이 없습니다.");
+    }
     
     model.addAttribute("student", student);
     model.addAttribute("title", "학생관리-상세보기");
     model.addAttribute("contentPage", "/student/detail.jsp");
-
-    if (student == null) {
-      throw new Exception("해당 아이디의 학생이 없습니다.");
-    }
 
     return "main";
   }
@@ -59,24 +51,13 @@ public class StudentControl {
   @RequestMapping("/student/add")
   public String add(Student student, MultipartFile photo) throws Exception {
 
-    if (studentDao.count(student.getEmail()) > 0) {
-      throw new Exception("같은 사용자 아이디가 존재합니다. 등록을 취소합니다.");
-    }
-    
-    if (memberDao.count(student.getEmail()) == 0) {
-      memberDao.insert(student);
-    } else {
-      Member member = memberDao.getOne(student.getEmail());
-      student.setMemberNo(member.getMemberNo());
-    }
-    
     if (photo.getSize() > 0) {
       String newFilename = MultipartUtil.generateFilename();
       photo.transferTo(new File(sc.getRealPath("/upload/" + newFilename)));
       student.setPhotoPath(newFilename);
     }
     
-    studentDao.insert(student);
+    studentService.add(student);
     
     return "redirect:list.do";
   }
@@ -84,16 +65,8 @@ public class StudentControl {
   
   @RequestMapping("/student/delete")
   public String delete(int memberNo) throws Exception {
-
-    if (studentDao.countByNo(memberNo) == 0) {
-      throw new Exception("사용자를 찾지 못했습니다.");
-    }
-
-    studentDao.delete(memberNo);
-
-    if (managerDao.countByNo(memberNo) == 0 && teacherDao.countByNo(memberNo) == 0) {
-      memberDao.delete(memberNo);
-    }
+    
+    studentService.delete(memberNo);
 
     return "redirect:list.do";
   }
@@ -102,20 +75,13 @@ public class StudentControl {
   @RequestMapping("/student/update")
   public String update(Student student, MultipartFile photo) throws Exception {
 
-    if (studentDao.countByNo(student.getMemberNo()) == 0) {
-      throw new Exception("사용자를 찾지 못했습니다.");
-    }
-    memberDao.update(student);
-    
-    
     if (photo.getSize() > 0) {
       String newFilename = MultipartUtil.generateFilename();
       photo.transferTo(new File(sc.getRealPath("/upload/" + newFilename)));
       student.setPhotoPath(newFilename);
     }
     
-    
-    studentDao.update(student);
+    studentService.update(student);
     
     return "redirect:list.do";
   }

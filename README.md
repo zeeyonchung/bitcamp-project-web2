@@ -1,5 +1,7 @@
 # bitcamp-project-web2
 
+### v2.5 - 페이지 컨트롤러에서 비즈니스 로직 분리하여 Service 객체 만들기
+
 ### v2.4 - 로그인 여부 검사하기
 - 방법1) 서블릿 필터 이용
     - LoginCherckFilter
