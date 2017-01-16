@@ -1,5 +1,11 @@
 # bitcamp-project-web2
 
+### v2.4 - 로그인 여부 검사하기
+- 방법1) 서블릿 필터 이용
+    - LoginCherckFilter
+    - 로그인을 수행하는 URL을 제외하고 나머지 모든 URL에 대해서는 로그인 여부를 검사
+- 방법2) 스프링의 인터셉터 이용
+
 ### v2.3 - Persistence Framework인 Mybatis 적용하기
 
 ### v2.2 - 페이지 컨트롤러에서 요청 핸들러의 파라미터 값 적용

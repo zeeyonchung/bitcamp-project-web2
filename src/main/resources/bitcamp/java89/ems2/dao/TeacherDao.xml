@@ -82,10 +82,6 @@
     </foreach>
   </insert>
   
-  <delete id="deletePhotoList" parameterType="int">
-    delete from tch_phot where tno=#{memberNo}
-  </delete>
-  
   <delete id="delete" parameterType="int">
     delete 
     from tcher 

@@ -37,5 +37,14 @@
         class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
     <property name="maxUploadSize" value="500000000"/>
   </bean>
+  
+  
+	<mvc:interceptors>
+		<mvc:interceptor>
+		    <mvc:mapping path="/**"/>
+		    <mvc:exclude-mapping path="/auth/**"/>
+		    <bean class="bitcamp.java89.ems2.interceptor.LoginCheckInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
 
 </beans>
