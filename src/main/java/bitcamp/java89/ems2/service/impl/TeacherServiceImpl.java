@@ -50,7 +50,10 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     int count = teacherDao.insert(teacher);
-    teacherDao.insertPhotoList(teacher);
+    
+    if (teacher.getPhotoList().size() > 0) {
+      teacherDao.insertPhotoList(teacher);
+    }
     
     return count;
   }
