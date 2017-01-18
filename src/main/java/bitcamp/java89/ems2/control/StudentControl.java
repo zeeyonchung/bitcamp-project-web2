@@ -25,7 +25,16 @@ public class StudentControl {
     List<Student> list = studentService.getList();
     model.addAttribute("students", list);
     model.addAttribute("title", "학생관리-목록");
-    model.addAttribute("contentPage", "/student/list.jsp");
+    model.addAttribute("contentPage", "student/list.jsp");
+    
+    return "main";
+  }
+  
+  
+  @RequestMapping("/student/form")
+  public String form(Model model) throws Exception {
+    model.addAttribute("title", "학생관리-등록폼");
+    model.addAttribute("contentPage", "student/form.jsp");
     
     return "main";
   }
@@ -42,7 +51,7 @@ public class StudentControl {
     
     model.addAttribute("student", student);
     model.addAttribute("title", "학생관리-상세보기");
-    model.addAttribute("contentPage", "/student/detail.jsp");
+    model.addAttribute("contentPage", "student/detail.jsp");
 
     return "main";
   }

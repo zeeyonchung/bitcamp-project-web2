@@ -25,7 +25,16 @@ public class ManagerControl {
     List<Manager> list = managerService.getList();
     model.addAttribute("managers", list);
     model.addAttribute("title", "매니저관리-목록");
-    model.addAttribute("contentPage", "/manager/list.jsp");
+    model.addAttribute("contentPage", "manager/list.jsp");
+
+    return "main";
+  }
+  
+  
+  @RequestMapping("/manager/form")
+  public String form(Model model) throws Exception {
+    model.addAttribute("title", "매니저관리-등록폼");
+    model.addAttribute("contentPage", "manager/form.jsp");
 
     return "main";
   }
@@ -41,7 +50,7 @@ public class ManagerControl {
     
     model.addAttribute("manager", manager);
     model.addAttribute("title", "매니저관리-상세보기");
-    model.addAttribute("contentPage", "/manager/detail.jsp");
+    model.addAttribute("contentPage", "manager/detail.jsp");
 
     return "main";
   }

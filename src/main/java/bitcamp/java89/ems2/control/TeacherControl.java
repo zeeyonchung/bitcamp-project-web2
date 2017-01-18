@@ -37,7 +37,16 @@ public class TeacherControl {
     List<Teacher> list = teacherService.getList();
     model.addAttribute("teachers", list);
     model.addAttribute("title", "강사관리-목록");
-    model.addAttribute("contentPage", "/teacher/list.jsp");
+    model.addAttribute("contentPage", "teacher/list.jsp");
+    
+    return "main";
+  }
+  
+  
+  @RequestMapping("/teacher/form")
+  public String form(Model model) throws Exception {
+    model.addAttribute("title", "강사관리-등록폼");
+    model.addAttribute("contentPage", "teacher/form.jsp");
     
     return "main";
   }
@@ -54,7 +63,7 @@ public class TeacherControl {
     
     model.addAttribute("photoList", photoList);
     model.addAttribute("title", "강사관리-상세보기");
-    model.addAttribute("contentPage", "/teacher/detail.jsp");
+    model.addAttribute("contentPage", "teacher/detail.jsp");
     
     return "main";
   }

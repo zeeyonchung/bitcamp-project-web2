@@ -1,15 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>강사관리-입력폼</title>
-</head>
-<body>
-
-<div id='header' style='background-color:#DCF7F7; height:60px;'>
-<img src='../image/n.jpg' height='50' style='float:left; margin-top:6px; margin-left:8px'> 
-<div style='color:gray; font-weight:bold; margin-top:6px; margin-left:70px; padding-top:15px; font-family:돋움체, sans-serif; font-size:x-large;'>교육센터관리시스템</div>
-</div>
+<%@page import="java.util.List"%>
+<%@page import="bitcamp.java89.ems2.domain.Student"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"
+    trimDirectiveWhitespaces="true"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <h1>강사 등록폼</h1>
 <form action='add.do' method='POST' enctype='multipart/form-data'>
@@ -32,10 +26,3 @@
 <button type='submit'>등록</button>
  <a href='list.do'>목록</a>
 </form>
-
-<div id='footer' style='background-color:#DCF7F7; height:28px; margin-top:50px;'>
-<div style='color:gray; margin-top:10px; padding-top:5px; font-family:돋움체, sans-serif; text-align:center; font-weight:lighter;'>@2016 비트캠프 자바89기</div>
-</div>
-
-</body>
-</html>
