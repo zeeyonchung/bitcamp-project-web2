@@ -1,5 +1,7 @@
 # bitcamp-project-web2
 
+### v3.0 - AJAX 
+
 ### v2.9 - 클라이언트에서 JSP 직접 접근 못하게 막기
 - JSP는 WEB-INF 아래로 감춘다.
 

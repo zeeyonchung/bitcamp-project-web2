@@ -10,26 +10,25 @@
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd">
 
-  <!-- 스프링 IoC 컨테이너가 클래스를 찾는 위치를 지정한다. 
-       => 이 패키지와 하위 패키지를 모두 뒤져서 
-          @Component, @Controller, @Repository, @Service 애노테이션이 붙은 
-          클래스를 찾아 인스턴스를 생성한다.
+  <!-- JSON 텍스트 데이터를 리턴하는 페이지 컨트롤러 객체를 준비한다.
   -->
-  <context:component-scan base-package="bitcamp.java89.ems2.control">
-    <context:exclude-filter type="regex" expression="bitcamp.java89.ems2.control.json.*"/>
-  </context:component-scan>
+  <context:component-scan base-package="bitcamp.java89.ems2.control.json"/>
   
   
-  <!--  뷰 컴포넌트 관리자(View Resolver; 뷰 해결사) 등록 -->
-  <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-      <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
-      
-      <!-- 페이지 컨트롤러가 리턴한 URL 앞에 붙일 값 -->
-      <property name="prefix" value="/WEB-INF/view/"/>
-      
-      <!-- 페이지 컨트롤러가 리턴한 URL 뒤에 붙일 값 -->
-      <property name="suffix" value=".jsp"/>
+  <!--  뷰 컴포넌트 관리자(View Resolver; 뷰 해결사) 등록 
+        => 요청 핸들러가 리턴하는 객체를 JSON 문자열로 자동 변환시키는 뷰리졸버 등록
+  <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+    <property name="defaultViews">
+        <list>
+            <bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"/>
+        </list>
+    </property>
   </bean>
+  -->
+  
+  
+  
+  
   
   <!-- MVC 관련 애노테이션을 처리할 수 있는 객체를 등록한다. -->
   <mvc:annotation-driven/>
@@ -37,10 +36,10 @@
   
   <bean id="multipartResolver"
         class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-    <property name="maxUploadSize" value="500000000"/>
+    <property name="maxUploadSize" value="50000000"/>
   </bean>
   
-  <!--
+  <!-- 
 	<mvc:interceptors>
 		<mvc:interceptor>
 		    <mvc:mapping path="/**"/>
@@ -48,6 +47,6 @@
 		    <bean class="bitcamp.java89.ems2.interceptor.LoginCheckInterceptor"/>
 		</mvc:interceptor>
 	</mvc:interceptors>
-	  -->
+	 -->
 
 </beans>
