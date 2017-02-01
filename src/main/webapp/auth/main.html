@@ -2,31 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style type="text/css">
-boby {
-	font-family: '맑은 고딕', sans-serif;
-}
-
-#sidebar {
-	color: white;
-	padding: 10px 5px;
-	float: left;
-	margin: 5px 5px 5px 0px;
-}
-
-#sidebar a {
-	color: white;
-	text-decoration: none;
-}
-
-#content {
-	margin-left: 200px;
-}
-
-#footer {
-	clear: left;
-}
-</style>
+<link rel="stylesheet" href="../css/common.css">
 <meta charset='UTF-8'>
 <title>로그인</title>
 </head>
@@ -76,42 +52,6 @@ boby {
 	<script src="../js/bit.js"></script>
 	<script src="../js/common.js"></script>
 
-	<script>
-	document.querySelector('#login-btn').onclick = function() {
-		if (document.querySelector('#save-email').checked) {
-      setCookie('email', document.querySelector('#email').value, 30);
-    } else {
-    	setCookie('email', '', 0);
-    }
-		
-		var param = {
-			email: document.querySelector('#email').value,
-			password: document.querySelector('#password').value
-		};
-		
-		var userTypeList = document.querySelectorAll('input[name=user-type]');
-		for (var i = 0; i < userTypeList.length; i++) {
-			if (userTypeList[i].checked) {
-				param.userType = userTypeList[i].value;
-				break;
-			}
-		}
-		
-		post('login.json', param, function(jsonText) {
-			var ajaxResult = JSON.parse(jsonText);
-			
-			if (ajaxResult.status == "success") {
-				location.href = "../student/main.html";
-				return;
-			}
-			
-			alert(ajaxResult.data);
-		});
-	}
-	
-	document.querySelector('#email').value = getCookie('email').replace(/"/g, '');
-	
-	
-	</script>
+	<script src='main.js'></script>
 </body>
 </html>
