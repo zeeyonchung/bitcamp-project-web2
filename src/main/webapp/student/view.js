@@ -1,122 +1,114 @@
-	var memberNo = 0;
-	try {
-		var memberNo = location.href.split('?')[1].split('=')[1];
-	} catch(error) {
-		memberNo = -1;
-	}
-	
-	
-	if (memberNo > 0) {
-		prepareViewForm();
-	} else {
-		prepareNewForm();
-	}
-	
-	
-	
-	function prepareViewForm() {
-		//등록 버튼 감추기
-		var tags = document.querySelectorAll('.new-form');
-		for (var i = 0; i < tags.length; i++) {
-			tags[i].style.display = 'none';
+var memberNo = 0;
+try {
+	var memberNo = location.href.split('?')[1].split('=')[1];
+} catch(error) {
+	memberNo = -1;
+}
+
+
+if (memberNo > 0) {
+	prepareViewForm();
+} else {
+	prepareNewForm();
+}
+
+
+
+function prepareViewForm() {
+	$('.new-form').css('display', 'none');
+
+
+	$.getJSON("detail.json?memberNo=" + memberNo, function(ajaxResult) {
+		var status = ajaxResult.status;
+
+		if (status != "success") {
+			alert(ajaxResult.data);
+			return;
 		}
-		
-		
-	  //학생 목록 가져와서 tr 태그 붙이기
-	  get("detail.json?memberNo=" + memberNo, function(result) {
-		  //result JSON 문자열을 자바스크립트 객체로 만든다
-		  var ajaxResult = JSON.parse(result);
-		  var status = ajaxResult.status;
-		  
-		  if (status != "success") {
-			  alert(ajaxResult.data);
-			  return;
-		  }
-		  var student = ajaxResult.data;
-		  console.log(student);
-		  
-		  document.querySelector('#email').value = student.email;
-		  document.querySelector('#name').value = student.name;
-		  document.querySelector('#tel').value = student.tel;
-		  if (student.working) {
-			  document.querySelector('#working').checked = 'checked';
-		  } else {
-			  document.querySelector('#not-working').checked = 'checked';
-		  }
-		  document.querySelector('#grade').value = student.grade;
-		  document.querySelector('#school-name').value = student.schoolName;
-		  document.querySelector('#photo-img').src = "../upload/" + student.photoPath;
-	  });
-	  
-	  document.querySelector('#delete-btn').onclick = function() {
-		  get('delete.json?memberNo=' + memberNo, function(jsonText) {
-			  var ajaxResult = JSON.parse(jsonText);
-			  if (ajaxResult.status != 'success') {
-				  alert(ajaxResult.data);
-				  return;
-			  }
-			  location.href = 'main.html';
-		  });
-	  }
-	  
-	  document.querySelector('#update-btn').onclick = function() {
-		  var param = {
+		var student = ajaxResult.data;
+
+		$('#email').val(student.email);
+		$('#name').val(student.name);
+		$('#tel').val(student.tel);
+
+		if (student.working) {
+			$('#working').attr('checked', 'checked');
+		} else {
+			$('#not-working').attr('checked', 'checked');
+		}
+		$('#grade').val(student.grade);
+		$('#school-name').val(student.schoolName);
+		$('#photo-img').attr('src', '../upload/' + student.photoPath);
+	});
+
+	$('#delete-btn').click(function() {
+		$.getJSON('delete.json?memberNo=' + memberNo, function(ajaxResult) {
+			if (ajaxResult.status != 'success') {
+				alert(ajaxResult.data);
+				return;
+			}
+			location.href = 'main.html';
+		});
+	});
+
+	
+	
+	
+	$('#update-btn').click(function() {
+		var param = {
 				memberNo: memberNo,
-				name: document.querySelector('#name').value,
-				tel: document.querySelector('#tel').value,
-				email: document.querySelector('#email').value,
-				password: document.querySelector('#password').value,
-				working: document.querySelector('#working').checked,
-				grade: document.querySelector('#grade').value,
-				schoolName: document.querySelector('#school-name').value
-		  };
-		  
-		  post('update.json', param, function(jsonText) {
-			  var ajaxResult = JSON.parse(jsonText);
-			  if (ajaxResult.status != 'success') {
-				  alert(ajaxResult.data);
-				  return;
-			  }
-			  location.href = 'main.html';
-		  });
-    }
-	  
-	} //prepareViewForm()
-	
-	
-	
-	function prepareNewForm() {
-		var tags = document.querySelectorAll('.view-form');
-    for (var i = 0; i < tags.length; i++) {
-      tags[i].style.display = 'none';
-    }
-    
-    
-    document.querySelector('#add-btn').onclick = function() {
-      var param = {
-        name: document.querySelector('#name').value,
-        tel: document.querySelector('#tel').value,
-        email: document.querySelector('#email').value,
-        password: document.querySelector('#password').value,
-        working: document.querySelector('#working').checked,
-        grade: document.querySelector('#grade').value,
-        schoolName: document.querySelector('#school-name').value
-      };
-      
-      post('add.json', param, function(jsonText) {
-        var ajaxResult = JSON.parse(jsonText);
-        if (ajaxResult.status != 'success') {
-          alert(ajaxResult.data);
-          return;
-        }
-        location.href = 'main.html';
-      });
-    }
-	}
-	
-	
-	
-	
-	document.querySelector('#list-btn').onclick = function() {
-		location.href = 'main.html';
-	}
+				name: $('#name').val(),
+				tel: $('#tel').val(),
+				email: $('#email').val(),
+				password: $('#password').val(),
+				working: $('#working').is(':checked'),
+				grade: $('#grade').val(),
+				schoolName: $('#school-name').val()
+		};
+		
+		console.log($('#working').is(':checked'));
+		
+		$.post('update.json', param, function(ajaxResult) {
+			if (ajaxResult.status != 'success') {
+				alert(ajaxResult.data);
+				return;
+			}
+			location.href = 'main.html';
+		}, 'json');
+	});
+
+} //prepareViewForm()
+
+
+
+function prepareNewForm() {
+	$('.view-form').css('display', 'none');
+
+
+	$('#add-btn').click(function() {
+		var param = {
+				name: $('#name').val(),
+				tel: $('#tel').val(),
+				email: $('#email').val(),
+				password: $('#password').val(),
+				working: $('#working').is(':checked'),
+				grade: $('#grade').val(),
+				schoolName: $('#school-name').val()
+		};
+
+		$.post('add.json', param, function(ajaxResult) {
+			if (ajaxResult.status != 'success') {
+				alert(ajaxResult.data);
+				return;
+			}
+			location.href = 'main.html';
+		}, 'json');
+	});
+}
+
+
+
+
+$('#list-btn').click(function() {
+	location.href = 'main.html';
+});

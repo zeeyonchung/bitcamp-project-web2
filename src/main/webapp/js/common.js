@@ -1,45 +1,42 @@
-window.addEventListener("load", function() {
+$(function() {
 	//header.html 가져오기
-	get("../header.html", function(result) {
-		get("../auth/loginUser.json", function(jsonText) {
-			var ajaxResult = JSON.parse(jsonText);
-			document.querySelector("#header").innerHTML = result;
+	$.get("../header.html", function(result) {
+		$.getJSON("../auth/loginUser.json", function(ajaxResult) {
+			$("#header").html(result);
 			
 			if (ajaxResult.status == "fail") {
-				document.querySelector("#logon-div").style.display = "none";
+				$("#logon-div").css('display', 'none');
 				
-				document.querySelector('#login-btn').onclick = function(event) {
+				$('#login-btn').click(function(event) {
 					event.preventDefault();
 					location.href = "../auth/main.html";
-				};
+				});
 				
 				return;
 			}
 			
-			document.querySelector("#logoff-div").style.display = "none";
-			document.querySelector("#logon-div img").src = 
-				"../upload/" + ajaxResult.data.photoPath;
-			document.querySelector("#logon-div span").textContent =
-				ajaxResult.data.name;
+			$("#logoff-div").css('display', 'none');
+			$("#logon-div img").attr('src', "../upload/" + ajaxResult.data.photoPath);
+			$("#logon-div span").text(ajaxResult.data.name);
 			
-			document.querySelector('#logout-btn').onclick = function(event) {
+			$('#logout-btn').click(function(event) {
 				event.preventDefault();
-				get('../auth/logout.json', function(jsonText) {
+				$.get('../auth/logout.json', function(jsonText) {
 					location.href = "../auth/main.html";
 				});
-			};
+			});
 		});
 	});
 	
 	
 	//sidebar.html 가져오기
-	get("../sidebar.html", function(result) {
-		document.querySelector('#sidebar').innerHTML = result;
+	$.get("../sidebar.html", function(result) {
+		$('#sidebar').html(result);
 	});
 	
 	
 	//footer.html 가져오기
-	get("../footer.html", function(result) {
-		document.querySelector('#footer').innerHTML = result;
+	$.get("../footer.html", function(result) {
+		$('#footer').html(result);
 	});
 });
