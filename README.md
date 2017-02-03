@@ -1,5 +1,7 @@
 # bitcamp-project-web2
 
+### v3.6 - bootstrap CSS 라이브러리 적용
+
 ### v3.5 - npm 이용
 
 ### v3.4.1 - jQuery 사용 (로컬 웹서버 다운로드 방식)

@@ -5,6 +5,10 @@ boby {
   font-family: '맑은 고딕', sans-serif;
 }
 
+body > .container {
+	width: 960px;
+}
+
 #sidebar {
   color: white;
   padding: 10px 5px;

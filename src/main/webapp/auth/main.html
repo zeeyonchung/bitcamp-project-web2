@@ -2,12 +2,13 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
 <link rel="stylesheet" href="../css/common.css">
 <meta charset='UTF-8'>
 <title>로그인</title>
 </head>
 <body>
-
+  <div class="container">
 	<div id='header'
 		style='background-color: gray; height: 60px; position: relative;'>
 	</div>
@@ -17,7 +18,7 @@
 	<div id="content">
 		<h1>로그인</h1>
 		<form>
-			<table border='1'>
+			<table class='table'>
 				<tr>
 					<th>회원유형</th>
 					<td>
@@ -43,15 +44,15 @@
 			<button id='submit-btn' type='button'>로그인</button>
 		</form>
 	</div>
-
-
 	<div id='footer' style='background-color: gray; height: 28px;'></div>
-
+  </div>
 
   <script src="../node_modules/jquery/dist/jquery.js"></script>
+  <script src="../node_modules/bootstrap/dist/js/bootstrap.js"></script>
 	<script src="../js/bit.js"></script>
 	<script src="../js/common.js"></script>
 
 	<script src='main.js'></script>
 </body>
+
 </html>

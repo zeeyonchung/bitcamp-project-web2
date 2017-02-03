@@ -2,11 +2,13 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
 <link rel="stylesheet" href="../css/common.css">
 <meta charset='UTF-8'>
 <title>학생관리-조회</title>
 </head>
 <body>
+<div class="container">
 
 	<div id='header'
 		style='background-color: gray; height: 60px; position: relative;'>
@@ -17,7 +19,7 @@
 	<div id="content">
 		<h1>학생 정보</h1>
 		<form action='update.do' method='POST' enctype='multipart/form-data'>
-			<table border='1'>
+			<table class='table'>
 				<tr>
 					<th>이메일</th>
 					<td><input id='email' type='text'></td>
@@ -70,9 +72,10 @@
 
 
 	<div id='footer' style='background-color: gray; height: 28px;'></div>
-
+</div>
 
   <script src="../node_modules/jquery/dist/jquery.js"></script>
+  <script src="../node_modules/bootstrap/dist/js/bootstrap.js"></script>
   <script src="../js/bit.js"></script>
   <script src="../js/common.js"></script>
 
