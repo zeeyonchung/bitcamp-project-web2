@@ -9,11 +9,20 @@ body > .container {
 	width: 960px;
 }
 
+#header {
+	background-color: gray; 
+	height: 60px; 
+	position: relative;
+}
+
 #sidebar {
+  position: absolute;
   color: white;
   padding: 10px 5px;
-  float: left;
-  margin: 5px 5px 5px 0px;
+  margin: 0px;
+  background-color: Navy; 
+  width: 180px; 
+  height: 400px;
 }
 
 #sidebar a {
@@ -22,9 +31,11 @@ body > .container {
 }
 
 #content {
-  margin-left: 200px;
+  margin-left: 190px;
+  min-height: 400px;
 }
 
 #footer {
-  clear: left;
+  background-color: gray; 
+  height: 28px;
 }

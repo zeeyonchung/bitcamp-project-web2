@@ -10,11 +10,9 @@
 <body>
 <div class="container">
 
-	<div id='header'
-		style='background-color: gray; height: 60px; position: relative;'>
+	<div id='header'>
 	</div>
-	<div id='sidebar'
-		style='background-color: Navy; width: 180px; height: 400px;'></div>
+	<div id='sidebar'></div>
 
 	<div id="content">
 		<h1>학생 정보</h1>
@@ -35,9 +33,25 @@
 	</div>
 
 
-	<div id='footer' style='background-color: gray; height: 28px;'></div>
+	<div id='footer'></div>
 </div>
 
+
+<script id="trTemplate" type="text/x-handlebars-template">
+{{#each list}}
+<tr>
+<td>{{memberNo}}</td>
+<td><a class="name-link" href="#" data-no="{{memberNo}}">{{name}}</a></td>
+<td>{{tel}}</td>
+<td>{{working}}</td>
+<td>{{grade}}</td>
+<td>{{schoolName}}</td>
+</tr>
+{{/each}}
+</script>
+
+
+  <script src="../node_modules/handlebars/dist/handlebars.js"></script>
   <script src="../node_modules/jquery/dist/jquery.js"></script>
   <script src="../node_modules/bootstrap/dist/js/bootstrap.js"></script>
   <script src="../js/bit.js"></script>

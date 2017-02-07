@@ -1,5 +1,8 @@
 # bitcamp-project-web2
 
+
+### v3.7 - handlebars HTML 템플릿 엔진 적용
+
 ### v3.6 - bootstrap CSS 라이브러리 적용
 
 ### v3.5 - npm 이용
